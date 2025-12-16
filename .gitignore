@@ -1,0 +1,45 @@
+# Build directories
+target/
+build/
+
+# Maven Wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Spring Boot temporary files
+*.log
+*.pid
+*.h2.db
+
+# IDEs and Editors
+
+## STS (Spring Tool Suite)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+## IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+## NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/
+/**/src/main/**/build/
+/**/src/test/**/build/
+
+## VS Code
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
