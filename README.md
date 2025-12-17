@@ -1,5 +1,10 @@
 # 📚 Literalura
 
+<p align="center">
+  <img src="src/main/assets/Badge-Literalura.png" alt="Badge Literalura" width="150">
+</p>
+
+
 Projeto desenvolvido como desafio do programa **Oracle Next Education (ONE)**, com foco em **Java, Spring Boot, Spring Data JPA e PostgreSQL**.
 
 O sistema consome dados da API pública **Gutendex**, armazena livros e autores em um banco de dados relacional e oferece consultas via menu interativo no terminal.
