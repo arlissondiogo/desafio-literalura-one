@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class Menu {
@@ -39,6 +40,7 @@ public class Menu {
                 2 - Listar livros salvos
                 3 - Listar autores registrados
                 4 - Listar autores vivos em determinado ano
+                5 - Listar livros em determinado idioma
                 0 - Sair
                 """);
 
@@ -51,6 +53,7 @@ public class Menu {
                 case 2 -> listarLivros();
                 case 3 -> listarAutores();
                 case 4 -> listarAutoresVivosPorAno();
+                case 5 -> exibirEstatisticasPorIdioma();
                 case 0 -> System.out.println("Encerrando...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -61,9 +64,22 @@ public class Menu {
         System.out.print("Digite o título do livro: ");
         String titulo = scanner.nextLine();
 
+        var livroExistente = livroRepository.findByTitleIgnoreCase(titulo);
+
+        if (livroExistente.isPresent()) {
+            System.out.println("Livro já cadastrado no banco:");
+            System.out.println(livroExistente.get());
+
+            System.out.println("Autor:");
+            System.out.println(livroExistente.get().getAuthor());
+
+            return;
+        }
+
         String json = api.buscarLivroPorTitulo(titulo);
 
-        GutendexResponse resposta = conversor.dateConversor(json, GutendexResponse.class);
+        GutendexResponse resposta =
+                conversor.dateConversor(json, GutendexResponse.class);
 
         if (resposta.getResults() == null || resposta.getResults().isEmpty()) {
             System.out.println("Livro não encontrado.");
@@ -76,11 +92,19 @@ public class Menu {
 
         System.out.println("Livro salvo com sucesso:");
         System.out.println(livro);
+
         System.out.println("Autor:");
         System.out.println(livro.getAuthor());
     }
 
+
     private void salvarLivroComAutor(Book livro) {
+        var livroExistente = livroRepository.findByTitleIgnoreCase(livro.getTitle());
+        if (livroExistente.isPresent()) {
+            System.out.println("Livro já cadastrado no banco.");
+            return;
+        }
+
         List<AuthorApiDTO> autoresApi = livro.getAuthorsApi();
         if (autoresApi == null || autoresApi.isEmpty()) {
             System.out.println("Livro sem autor registrado.");
@@ -130,4 +154,19 @@ public class Menu {
             vivos.forEach(System.out::println);
         }
     }
+
+    private void exibirEstatisticasPorIdioma() {
+        livroRepository.findAll()
+                .stream()
+                .flatMap(book -> book.getLanguages().stream())
+                .collect(Collectors.groupingBy(
+                        String::toUpperCase,
+                        Collectors.counting()
+                ))
+                .forEach((idioma, qtd) ->
+                        System.out.println("Idioma: " + idioma + " | Livros: " + qtd)
+                );
+    }
+
+
 }

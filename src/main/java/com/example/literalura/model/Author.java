@@ -2,6 +2,7 @@ package com.example.literalura.model;
 
 import jakarta.persistence.*;
 
+@SuppressWarnings("unused")
 @Entity
 public class Author {
 

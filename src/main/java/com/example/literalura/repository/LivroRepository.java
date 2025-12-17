@@ -2,8 +2,12 @@ package com.example.literalura.repository;
 
 import com.example.literalura.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
-@Repository
+@SuppressWarnings("unused")
 public interface LivroRepository extends JpaRepository<Book, Long> {
+
+    Optional<Book> findByTitleIgnoreCase(String title);
+    long countByLanguagesContainingIgnoreCase(String language);
+
 }

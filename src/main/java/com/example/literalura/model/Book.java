@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {
@@ -29,6 +30,7 @@ public class Book {
     private Author author;
 
     @Transient
+    @JsonProperty("authors")
     private List<AuthorApiDTO> authorsApi;
 
     public List<AuthorApiDTO> getAuthorsApi() {

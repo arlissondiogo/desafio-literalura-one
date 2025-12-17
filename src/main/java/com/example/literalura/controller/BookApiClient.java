@@ -10,9 +10,11 @@ import java.nio.charset.StandardCharsets;
 public class BookApiClient {
 
     private static final String BASE_URL = "https://gutendex.com/books/?search=";
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public String buscarLivroPorTitulo(String titulo) {
         String url = BASE_URL + URLEncoder.encode(titulo, StandardCharsets.UTF_8);
-        return new RestTemplate().getForObject(url, String.class);
+        return restTemplate.getForObject(url, String.class);
     }
+
 }
